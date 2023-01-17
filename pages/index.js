@@ -10,6 +10,11 @@ const App = () => {
 						About
 					</Link>
 				</li>
+				<li>
+					<Link href="/product">
+						Products
+					</Link>
+				</li>
 			</ul>
 		</div>
 	)
