@@ -1,30 +1,26 @@
-import { useRouter } from "next/router"
-import { useEffect, useState } from "react"
+import data from "@/database/data"
 
-const Product = () => {
-	const { query: { id } } = useRouter()
-	const [avo, setAvo] = useState(null)
+export const getStaticPaths = async () => {
+	const paths = Object.values(data).map(item => ({
+		params: {id: item.id}
+	}))
 
-	useEffect(() => {
-		const controller = new AbortController()
+	return {
+		paths,
+		fallback: false
+	}
+}
 
-		fetch(`/api/avo/${id}`, { signal: controller.signal })
-			.then(res => {
-				if (res.ok) return res.json()
-				throw new Error()
-			})
-			.then(data => {
-				setAvo(data)
-			})
-			.catch(err => {
-				// TODO: Handle error
-				console.log(err)
-				setAvo(false)
-			})
+export const getStaticProps = async ({ params }) => {
+	const res = await fetch(`http://localhost:3000/api/avo/${params.id}`)
+	const avo = await res.json()
 
-		return () => controller.abort()
-	}, [])
+	return {
+		props: { avo }
+	}
+}
 
+const Product = ({ avo }) => {
 	if (avo === null) {
 		return <span>Loading...</span>
 	}
