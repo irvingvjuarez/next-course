@@ -1,8 +1,9 @@
 import Link from "next/link"
+import style from "../../style.module.css"
 
 const Navbar = () => {
 	return (
-		<header>
+		<header className={style.navbar}>
 			<nav>
 				<ul>
 					<li>
