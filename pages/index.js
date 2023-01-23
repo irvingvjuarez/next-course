@@ -1,27 +1,15 @@
 import Link from "next/link"
-import { useEffect, useState } from "react"
 
-const App = () => {
-	const [avos, setAvos] = useState([])
+export const getServerSideProps = async () => {
+	const res = await fetch("http://localhost:3000/api/avo")
+	const avos = await res.json()
 
-	useEffect(() => {
-		const controller = new AbortController()
+	return {
+		props: { avos }
+	}
+}
 
-		fetch("/api/avo", { signal: controller.signal })
-			.then(res => {
-				if (res.ok) return res.json()
-				throw new Error()
-			})
-			.then(data => {
-				setAvos(data)
-			})
-			.catch(err => {
-				// TODO: Handle error
-				console.log(err)
-			})
-
-		return () => controller.abort()
-	}, [])
+const App = ({ avos }) => {
 
 	return (
 		<div>
