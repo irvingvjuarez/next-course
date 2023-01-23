@@ -28,8 +28,10 @@ const App = () => {
 			<h2>Avocados Home</h2>
 			<ul>
 				{avos.map(avo => (
-					<li>
-						{avo.name}
+					<li key={avo.id}>
+						<Link href={`/product/${avo.id}`}>
+							{avo.name}
+						</Link>
 					</li>
 				))}
 			</ul>
