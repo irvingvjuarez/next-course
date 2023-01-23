@@ -5,7 +5,7 @@ const Products = () => {
 
 	return (
 		<div>
-			<ul>
+			<ul className="item-list">
 				{productsArr.map(item => (
 					<li key={item}>
 						<Link href={`/product/${item}`}>
@@ -14,6 +14,13 @@ const Products = () => {
 					</li>
 				))}
 			</ul>
+
+			<style jsx>{`
+				.item-list {
+					list-style: none;
+					padding: 1rem;
+				}
+			`}</style>
 		</div>
 	)
 }
