@@ -1,20 +1,37 @@
 import Link from "next/link"
+import { useEffect, useState } from "react"
 
 const App = () => {
+	const [avos, setAvos] = useState([])
+
+	useEffect(() => {
+		const controller = new AbortController()
+
+		fetch("/api/avo", { signal: controller.signal })
+			.then(res => {
+				if (res.ok) return res.json()
+				throw new Error()
+			})
+			.then(data => {
+				setAvos(data)
+			})
+			.catch(err => {
+				// TODO: Handle error
+				console.log(err)
+			})
+
+		return () => controller.abort()
+	}, [])
+
 	return (
 		<div>
-			<h2>Hi, I am the page root of this Next.js App</h2>
+			<h2>Avocados Home</h2>
 			<ul>
-				<li>
-					<Link href="/about">
-						About
-					</Link>
-				</li>
-				<li>
-					<Link href="/product">
-						Products
-					</Link>
-				</li>
+				{avos.map(avo => (
+					<li>
+						{avo.name}
+					</li>
+				))}
 			</ul>
 		</div>
 	)
