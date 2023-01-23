@@ -1,6 +1,6 @@
 import Link from "next/link"
 
-export const getServerSideProps = async () => {
+export const getStaticProps = async () => {
 	const res = await fetch("http://localhost:3000/api/avo")
 	const avos = await res.json()
 
@@ -10,7 +10,6 @@ export const getServerSideProps = async () => {
 }
 
 const App = ({ avos }) => {
-
 	return (
 		<div>
 			<h2>Avocados Home</h2>
